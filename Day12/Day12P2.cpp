@@ -130,6 +130,7 @@ int main() {
   int min = INT_MAX;
   int searched = 0;
   cout << "Found " << starts.size() << " starting points" << endl;
+  //Maybe drink a latte while this runs? I don't even drink coffee
   for (Node s : starts) {
     cout << "Searched: " << searched << " of " << starts.size() << endl;
     int temp = bfs(s, end, min);
