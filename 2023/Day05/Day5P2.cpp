@@ -45,7 +45,7 @@ int main()
                 if (data[i].second || (data[i].first.first < source && data[i].first.first + data[i].first.second <= source) || (data[i].first.first >= source + length)) {
 		            // cout << "Skipping Range: " << data[i].first.first << ' ' << data[i].first.second << ' ' << data[i].second << endl;
                     continue;
-		        }
+                }
                 //Entire length fits
                 if (data[i].first.first >= source && data[i].first.first + data[i].first.second < source + length) {
                     //Update data
