@@ -112,18 +112,18 @@ int main()
             break;
         }
     }
-    cout << "Reading all boards" << endl;
-    for (auto cboard : boards) {
-        for (auto x : cboard.data) {
-            for (auto y : x) { 
-                cout << y.first << ',' << y.second << ' ';
-            }
-            cout << endl;
-        }
-        cout << endl;
-    }
+    // cout << "Reading all boards" << endl;
+    // for (auto cboard : boards) {
+    //     for (auto x : cboard.data) {
+    //         for (auto y : x) { 
+    //             cout << y.first << ',' << y.second << ' ';
+    //         }
+    //         cout << endl;
+    //     }
+    //     cout << endl;
+    // }
 
-    cout << "Reading Winning Board" << endl;
+    // cout << "Reading Winning Board" << endl;
     //Read Winning Board
     int answer = 0;
     for (auto x : winningBoard.data) {
@@ -131,9 +131,9 @@ int main()
             if (!y.second) {
                 answer += y.first;
             }
-            cout << y.first << ' ';
+            // cout << y.first << ' ';
         }
-        cout << endl;
+        // cout << endl;
     }
     cout << answer * finalCall << endl;
     return 0;
