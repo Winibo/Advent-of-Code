@@ -2,7 +2,7 @@
 
 using namespace std;
 
-long long lookup[200][200][200];
+long long lookup[110][50][50];
 vector<int> remaining;
 
 long long solve(string line, int sStart, int vStart, int hashCount) {
@@ -26,8 +26,10 @@ long long solve(string line, int sStart, int vStart, int hashCount) {
             currentHashes++;
         } else {
             //Answer is sum of both options
-            long long answer = solve(line.substr(0, i) + '#' + line.substr(i+1, string::npos), i + 1, currentIndex, currentHashes + 1);
-            answer += solve(line.substr(0, i) + '.' + line.substr(i+1, string::npos), i, currentIndex, currentHashes);
+            line[i] = '#';
+            long long answer = solve(line, i + 1, currentIndex, currentHashes + 1);
+            line[i] = '.';
+            answer += solve(line, i, currentIndex, currentHashes);
             lookup[sStart][vStart][hashCount] = answer;
             return answer;
         }
@@ -41,7 +43,7 @@ long long solve(string line, int sStart, int vStart, int hashCount) {
     return 0;
 }
 
-//Takes ~10 seconds?
+//Takes ~1 second (Maybe less)
 int main() {
     long long result = 0;
     while (!cin.eof()) {
@@ -61,21 +63,23 @@ int main() {
             required.push_back(next);
         }
         oInput = input;
-        oRequired = required;
+        remaining.clear();
         for (int i = 0; i < 4; i++) {
             input = input + '?' + oInput;
-            required.insert(required.end(), oRequired.begin(), oRequired.end());
         }
-        for (int i = 0; i < 200; i++) {
-            for (int j = 0; j < 200; j++) {
-                for (int k = 0;k < 200; k++) {
+        for (int i = 0; i < 5; i++) {
+            for (auto x : required) {
+                remaining.push_back(x);
+            }
+        }
+        for (int i = 0; i < input.length() + 1; i++) {
+            for (int j = 0; j < remaining.size() + 1; j++) {
+                for (int k = 0; k < 50; k++) {
                     lookup[i][j][k] = -1;
                 }
             }
         }
-        remaining = required;
-        long long temp = solve(input + '.', 0, 0, 0);
-        result += temp;
+        result += solve(input + '.', 0, 0, 0);
     }
     cout << "Result: " << result << endl;
     return 0;
