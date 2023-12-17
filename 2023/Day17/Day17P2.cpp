@@ -55,7 +55,6 @@ int search() {
     while (!shortestList.empty()) {
         if (shortestList.top().first < graph[shortestList.top().second].shortestCost) {
             shortestList.pop();
-            cout << "Shortest List size: " << shortestList.size() << endl;
             continue;
         }
         node current = graph[shortestList.top().second]; shortestList.pop();
@@ -67,28 +66,28 @@ int search() {
 
         graph[current.idx].visited = true;
         //Update neighbors
-        if (current.direction != 2  && ((current.direction == 0 && current.straightCount < maxDistance - 1) || (current.direction != 0 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.first > 0) { //N
+        if (current.direction != 2 && ((current.direction == 0 && current.straightCount < maxDistance - 1) || (current.direction != 0 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.first > 0) { //N
             int idx = locMap[make_pair(current.location.first - 1, current.location.second)] + (11*0) + (current.direction == 0 ? (current.straightCount + 1) : 1);
             if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
                 graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
                 shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
             }
         }
-        if (current.direction != 3  && ((current.direction == 1 && current.straightCount < maxDistance - 1) || (current.direction != 1 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.second < heatMap[0].length()) { //E
+        if (current.direction != 3 && ((current.direction == 1 && current.straightCount < maxDistance - 1) || (current.direction != 1 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.second < heatMap[0].length()) { //E
             int idx = locMap[make_pair(current.location.first, current.location.second + 1)] + (11*1) + (current.direction == 1 ? (current.straightCount + 1) : 1);
             if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
                 graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
                 shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
             }
         }
-        if (current.direction != 0  && ((current.direction == 2 && current.straightCount < maxDistance - 1) || (current.direction != 2 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.first < heatMap.size()) { //S
+        if (current.direction != 0 && ((current.direction == 2 && current.straightCount < maxDistance - 1) || (current.direction != 2 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.first < heatMap.size()) { //S
             int idx = locMap[make_pair(current.location.first + 1, current.location.second)] + (11*2) + (current.direction == 2 ? (current.straightCount + 1) : 1);
             if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
                 graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
                 shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
             }
         }
-        if (current.direction != 1  && ((current.direction == 3 && current.straightCount < maxDistance - 1) || (current.direction != 3 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.second > 0) { //W
+        if (current.direction != 1 && ((current.direction == 3 && current.straightCount < maxDistance - 1) || (current.direction != 3 && current.straightCount >= minDistance) || current.ignoreMin) && current.location.second > 0) { //W
             int idx = locMap[make_pair(current.location.first, current.location.second - 1)] + (11*3) + (current.direction == 3 ? (current.straightCount + 1) : 1);
             if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
                 graph[idx].shortestCost = graph[idx].cost + current.shortestCost;

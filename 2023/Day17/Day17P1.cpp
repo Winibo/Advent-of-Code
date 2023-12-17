@@ -14,7 +14,7 @@ struct node {
     int straightCount;
     bool visited = false;
     int cost;
-    int shortestCost = INT_MAX;
+    int shortestCost = INT_MIN;
     int idx;
 };
 
@@ -24,6 +24,7 @@ map<pair<int, int>, int> locMap;
 
 int search() {
     vector<node> graph;
+    priority_queue<pair<int, int>> shortestList; //Score, idx
     int index = 0;
     for (int i = 0; i < heatMap.size(); i++) { //Row
         for (int j = 0; j < heatMap[0].length(); j++) { //Columns
@@ -32,63 +33,64 @@ int search() {
                 for (int l = 0; l < 4;l++) { //Straight Count
                     node next;
                     next.location = make_pair(i, j);
-                    next.cost = heatMap[i][j] - '0';
+                    next.cost = '0' - heatMap[i][j];
                     next.direction = k;
                     next.straightCount = l;
                     next.idx = index++;
                     graph.push_back(next);
                     if (i == 0 && j == 0 && k == 2 && l == 0) {
                         graph[graph.size() - 1].shortestCost = 0;
+                        shortestList.push(make_pair(0, index - 1));
                     }
                 }
             }
         }
     }
-
-    while (true) {
-        node temp;
-        node& current = temp;
-        //Search graph
-        for (node& x : graph) {
-            if (x.shortestCost < current.shortestCost && !x.visited) {
-                current = x;
-            }
+    int best = INT_MAX;
+    while (!shortestList.empty()) {
+        if (shortestList.top().first < graph[shortestList.top().second].shortestCost) {
+            shortestList.pop();
+            continue;
         }
+        node current = graph[shortestList.top().second]; shortestList.pop();
         if (current.location.first == heatMap.size() - 1 && current.location.second == heatMap[0].length() - 1) {
-            return current.shortestCost;
-        }
-
-        if (current.shortestCost == INT_MAX || current.visited) {
-            break;
+            if (best > -current.shortestCost) {
+                best = -current.shortestCost;
+            }
         }
 
         graph[current.idx].visited = true;
         //Update neighbors
         if (current.direction != 2 && (current.direction != 0 || current.straightCount < 3) && current.location.first > 0) { //N
             int idx = locMap[make_pair(current.location.first - 1, current.location.second)] + (4*0) + (current.direction == 0 ? (current.straightCount + 1) : 1);
-            graph[idx].shortestCost = min(graph[idx].shortestCost, graph[idx].cost + current.shortestCost);
+            if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
+                graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
+                shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
+            }
         }
         if (current.direction != 3 && (current.direction != 1 || current.straightCount < 3) && current.location.second < heatMap[0].length()) { //E
             int idx = locMap[make_pair(current.location.first, current.location.second + 1)] + (4*1) + (current.direction == 1 ? (current.straightCount + 1) : 1);
-            graph[idx].shortestCost = min(graph[idx].shortestCost, graph[idx].cost + current.shortestCost);
+            if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
+                graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
+                shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
+            }
         }
         if (current.direction != 0 && (current.direction != 2 || current.straightCount < 3) && current.location.first < heatMap.size()) { //S
             int idx = locMap[make_pair(current.location.first + 1, current.location.second)] + (4*2) + (current.direction == 2 ? (current.straightCount + 1) : 1);
-            graph[idx].shortestCost = min(graph[idx].shortestCost, graph[idx].cost + current.shortestCost);
+            if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
+                graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
+                shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
+            }
         }
         if (current.direction != 1 && (current.direction != 3 || current.straightCount < 3) && current.location.second > 0) { //W
             int idx = locMap[make_pair(current.location.first, current.location.second - 1)] + (4*3) + (current.direction == 3 ? (current.straightCount + 1) : 1);
-            graph[idx].shortestCost = min(graph[idx].shortestCost, graph[idx].cost + current.shortestCost);
+            if (graph[idx].shortestCost < graph[idx].cost + current.shortestCost) {
+                graph[idx].shortestCost = graph[idx].cost + current.shortestCost;
+                shortestList.push(make_pair(graph[idx].cost + current.shortestCost,idx));
+            }
         }
     }
-    int finalidx = locMap[make_pair(heatMap.size() - 1, heatMap[0].length() - 1)];
-    int answer = INT_MAX;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            answer = min(graph[finalidx + i + j].shortestCost, answer);
-        }
-    }
-    return answer;
+    return best;
 }
 
 
