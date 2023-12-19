@@ -28,7 +28,7 @@ bool evaluate(part toEval) { //True means accepted, false means rejected
                 if (x.destination == "A" || x.destination == "R") { //Will eventually be true
                     return x.destination == "A";
                 }
-                cout << "Next Label: " << x.destination << endl;
+                // cout << "Next Label: " << x.destination << endl;
                 currentFlow = workflows[x.destination];
                 break;
             }
@@ -53,7 +53,7 @@ bool evaluate(part toEval) { //True means accepted, false means rejected
                     if (x.destination == "A" || x.destination == "R") {
                         return x.destination == "A";
                     }
-                    cout << "Next Label: " << x.destination << endl;
+                    // cout << "Next Label: " << x.destination << endl;
                     currentFlow = workflows[x.destination];
                     break;
                 }
@@ -62,7 +62,7 @@ bool evaluate(part toEval) { //True means accepted, false means rejected
                     if (x.destination == "A" || x.destination == "R") {
                         return x.destination == "A";
                     }
-                    cout << "Next Label: " << x.destination << endl;
+                    // cout << "Next Label: " << x.destination << endl;
                     currentFlow = workflows[x.destination];
                     break;
                 }
@@ -130,7 +130,7 @@ int main() {
         if (next == "")
             break;
         part x = parsePart(next);
-        cout << "Evaluating:" << next << endl;
+        // cout << "Evaluating:" << next << endl;
         if (evaluate(x)) {
             accepted += x.x + x.m + x.a + x.s;
         }
