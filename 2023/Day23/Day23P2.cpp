@@ -45,15 +45,11 @@ void shrinkChildren() {
     searchList.push(make_pair(0,1));
     while (!searchList.empty()) {
         int i = searchList.front().first, j = searchList.front().second; searchList.pop();
-        // if (graph[i][j].value != '#') {
-        //     cout << "Node: " << i << ' ' << j << endl;
-        // }
         bool addChildren = false;
         for (int k = 0; k < graph[i][j].children.size(); k++) {
             pair<int, int> previous = make_pair(i, j);
             while (graph[graph[i][j].children[k].first.first][graph[i][j].children[k].first.second].children.size() == 2) {
                 addChildren = true;
-                // cout << "Child Was: " << graph[i][j].children[k].first.first << ' ' << graph[i][j].children[k].first.second << endl;
                 if (graph[graph[i][j].children[k].first.first][graph[i][j].children[k].first.second].children[0].first != previous) {
                     previous = graph[i][j].children[k].first;
                     graph[i][j].children[k].second += graph[graph[i][j].children[k].first.first][graph[i][j].children[k].first.second].children[0].second;
@@ -63,7 +59,6 @@ void shrinkChildren() {
                     graph[i][j].children[k].second += graph[graph[i][j].children[k].first.first][graph[i][j].children[k].first.second].children[1].second;
                     graph[i][j].children[k].first = graph[graph[i][j].children[k].first.first][graph[i][j].children[k].first.second].children[1].first;
                 }
-                // cout << "Child now: " << graph[i][j].children[k].first.first << ' ' << graph[i][j].children[k].first.second << endl;
             }
         }
         if (addChildren) {
@@ -82,17 +77,13 @@ int dijkstra(pair<int, int> start, int score) {
     if (start.first == endLoc.first && start.second == endLoc.second) {
         if (score > bestScore) {
             bestScore = score;
-            cout << bestScore << endl;
         }
         return score;
     }
     
-    // cout << "Score: " << score << endl;
     graph[start.first][start.second].visited = true;
     for (auto childset : graph[start.first][start.second].children) {
         pair<int, int> child = childset.first;
-        // cout << "Node: " << start.first << ' ' << start.second << endl;
-        // cout << "Visiting Child: " << child.first << ' ' << child.second << endl;
         if (!graph[child.first][child.second].visited) {
             graph[start.first][start.second].bestScore = max(dijkstra(child, score + childset.second), graph[start.first][start.second].bestScore);
         }
@@ -116,11 +107,8 @@ int main() {
         }
         graph.push_back(temp);
     }
-    cout << "Setting Children" << endl;
     setChildren();
-    cout << "Shrinking Children" << endl;
     shrinkChildren();
-    cout << "Running Dijkstra" << endl;
     endLoc = make_pair(graph.size() - 1, graph[0].size() - 2);
     cout << dijkstra(make_pair(0,1), 0) << endl;
     return 0;
