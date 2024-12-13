@@ -4,6 +4,7 @@ using namespace std;
 
 long long calculate(pair<long long, long long> a, pair<long long, long long> b, pair<long long, long long> target) {
     // I don't know linear algebra, so I stole this from Reddit user SuperSmurfen
+    // I went back and did the math for this by hand after the fact! See Working Out.txt
     long long bp = (target.second * a.first - target.first * a.second) / (b.second * a.first - b.first * a.second);
     long long ap = (target.first - bp * b.first) / a.first;
     if (a.first * ap + b.first * bp != target.first || a.second * ap + b.second * bp != target.second) {
