@@ -49,7 +49,7 @@ long long getQuadrant(int quadrant) {
     return result;
 }
 
-void printGrid(int step) {
+bool printGrid(int step) {
   vector<string> data;
   for (int i = 0; i < height; i++) {
       data.push_back("");
@@ -79,7 +79,9 @@ void printGrid(int step) {
     for (string x : data) {
       cout << x << endl;
     }
-  }
+    return true;
+    }
+  return false;
 }
 
 int main()
@@ -91,14 +93,14 @@ int main()
         robots.push_back(temp);
     }
     long long step = 0;
-    while (step < 10000) {
+    bool found = false;
+    while (!found) {
         for (int i = 0; i < robots.size(); i++) {
             simulateRobot(i);
         }
         step++;
         if (step % 10000 == 0) cout << "Step:" << step << endl;
-        printGrid(step);
-      
+        found = printGrid(step);
     }
     return 0;
 }
