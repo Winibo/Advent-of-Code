@@ -37,7 +37,6 @@ int main()
     long long result = 0;
     int count = 1;
     while (!cin.eof()) {
-        if (count % 100 == 0) cout << "Working on: " << count << endl;
         count++;
         value = -1;
         cin >> value;
