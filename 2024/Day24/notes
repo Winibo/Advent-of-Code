@@ -1,6 +1,0 @@
-This is not 100% accurate:
-On my input it listed 1 erroneous input when Sum and Carry gates for an output bit got flipped
--> The erroneous input was the correct gate for the Sum of the next digit, it took like, 5 minutes to find
-It's possible that there are other mistakes, but I didn't get them in my input so, meh
-This puzzle just wasn't for me, seeing as it took me 2-3 days to bother to write a mathed out solution after solving...
-
